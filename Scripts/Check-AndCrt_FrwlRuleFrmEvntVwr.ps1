@@ -1,7 +1,6 @@
 <#
 .SYNOPSIS
-Check for files and folders, create them if they don't exist, and execute a script to create a firewall rule based on Event Viewer logs. 
-
+        Check for files and folders, create them if they don't exist, and execute a script to create a firewall rule based on Event ID 4625 in the Event Viewer logs.
 .DESCRIPTION
         This script is designed to:
             1. Check if the source folder and script file exist, and create them if they don't.
@@ -9,19 +8,15 @@ Check for files and folders, create them if they don't exist, and execute a scri
             3. Extract IP addresses from the event logs.
             4. Create a firewall rule to block RDP access from the extracted IP addresses.
             5. Log the actions and results to a uniquely named log file based on the current date and time.
-
-The script works for:
-Powershell (All Versions)
-Windows 10, Windows 11, Windows Server 2012, Windows Server 2016, Windows Server 2019, Windows Server 2022
-
-.INSTRUCTIONS 
-        1. Update the $ScriptPath and $FolderPath variables with the desired paths on line 29 & 30.
-        2. Update $logpath on line 50 with the desired path.
-        3. Run the script as an administrator to ensure the firewall rule can be created.
-
 .LINK 
         Github:     https://github.com/isaiahrss 
         LinkedIn:   linkedin.com/in/isaiah-ross
+
+.PARAMETER ScriptPath
+        The path to the script file to be created or executed.
+
+.PARAMETER FolderPath
+        The path to the folder where the script file will be created.
 
 .NOTES
         Author: ISAIAH ROSS
