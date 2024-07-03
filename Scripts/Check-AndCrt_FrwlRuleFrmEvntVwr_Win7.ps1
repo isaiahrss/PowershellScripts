@@ -20,8 +20,8 @@
 .PARAMETER LogPath
         The path to the log file where the script actions and results will be logged.   
 .EXAMPLE
-        Edit the $ScriptPath and $FolderPath (Lines 31 & 32) variables with the desired paths.
-        Edit the $LogPath (Line 51) variable with the desired path for the log file then run the script.
+        Edit the $ScriptPath and $FolderPath variables with the desired paths.
+        Edit the $LogPath variable with the desired path for the log file then run the script.
 .NOTES
         Author: ISAIAH ROSS
 #>

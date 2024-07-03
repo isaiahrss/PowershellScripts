@@ -17,13 +17,18 @@
 
 .PARAMETER FolderPath
         The path to the folder where the script file will be created.
+.PARAMETER LogPath
+        The path to the log file where the script actions and results will be logged.
+.EXAMPLE
+        Edit the $ScriptPath and $FolderPath variables with the desired paths.
+        Edit the $LogPath variable with the desired path for the log file then run the script.
 
 .NOTES
         Author: ISAIAH ROSS
 #>
 
-$ScriptPath = "C:\Path\To\File"
-$FolderPath = "C:\Path\To\File"
+$ScriptPath = "C:\Path\to\script.ps1"
+$FolderPath = "C:\Path\to\folder"
 
 # Check if the folder exists, and create it if it doesn't
 if (-not (Test-Path -Path $FolderPath -PathType Container)) {
@@ -42,14 +47,16 @@ param (
 )
 
 # Generate a log file name based on the current date and time
-`$LogPath = `"C:\Path\to\file\log_{0}.txt`" -f (Get-Date -Format `"yyyyMMdd_HHmmss`")
+`$LogPath = `"C:\Path\to\folder\log_{0}.txt`" -f (Get-Date -Format `"yyyyMMdd_HHmmss`")
 Write-Host (`"Log file will be created at: {0}`" -f `$LogPath) -ForegroundColor Cyan
 
 # Retrieve the event log
 Write-Host `"Retrieving event logs...`" -ForegroundColor Cyan
-`$EventLog = Get-WinEvent -FilterHashtable @{
-    LogName = `$LogName
-    ID = `$EventID
+try {
+    `$EventLog = Get-WinEvent -FilterHashtable @{LogName=`$LogName; ID=`$EventID}
+} catch {
+    Write-Host `"An error occurred while retrieving event logs: `$_`" -ForegroundColor Red
+    exit
 }
 
 # Check if any events were found
@@ -65,51 +72,64 @@ if (`$null -eq `$EventLog -or `$EventLog.Count -eq 0) {
     Add-Content -Path `$LogPath -Value `$LogMessage
 }
 
-# Debugging output
-Write-Host `'Processing event logs...`' -ForegroundColor Cyan
-
-`$IPAddress = `$null
-`$XmlData = `$EventLog.ToXml()
-
-# Debugging output
-Write-Host `'Event logs converted to XML`' -ForegroundColor Cyan
-
-# Define the XML tag to search for the IP address
-`$XmlTag = `'<Data Name="IpAddress">`'
-
-if (`$XmlData -contains `$XmlTag) {
-    Write-Host `'Searching for IP address in the event logs...`' -ForegroundColor Cyan
-    `$StartIndex = `$XmlData.IndexOf(`$XmlTag) + `$XmlTag.Length
-    `$EndIndex = `$XmlData.IndexOf(`'</Data>`', `$StartIndex)
-    `$IPAddress = `$XmlData.Substring(`$StartIndex, `$EndIndex - `$StartIndex)
-
-    # Debugging output
-    Write-Host (`"Extracted IP address: {0}`" -f `$IPAddress) -ForegroundColor Cyan
+# Extract IP addresses from event log messages and count occurrences
+`$IPCount = @{}
+foreach (`$entry in `$EventLog) {
+    `$IPAddress = `$entry.Properties[19].Value  # 20th property is usually the IP address in event ID 4625
+    if (`$IPAddress -and `$IPAddress -ne '-') {
+        if (`$IPCount.ContainsKey(`$IPAddress)) {
+            `$IPCount[`$IPAddress] += 1
+        } else {
+            `$IPCount[`$IPAddress] = 1
+        }
+    }
 }
 
-if (`$null -ne `$IPAddress) {
-    `$Subnet = `$IPAddress.Substring(0, `$IPAddress.LastIndexOf('.')) + `".0/24`"
-    `$FirewallRuleName = `'Block RDP from `' + `$Subnet
+# Find IP addresses with at least 5 occurrences
+`$FrequentIPs = `$IPCount.GetEnumerator() | Where-Object { `$_.Value -ge 5 }
+
+# Check if any frequent IP addresses were found
+if (`$FrequentIPs.Count -eq 0) {
+    Write-Host `'No IP addresses with 5 or more occurrences found in the event logs`' -ForegroundColor Yellow
+    `$LogMessage = `'No IP addresses with 5 or more occurrences found in the event logs on `' + (Get-Date)
+    Add-Content -Path `$LogPath -Value `$LogMessage
+    exit
+} else {
+    Write-Host "Failed Logon Threshold Exceeded!" -ForegroundColor Yellow
     
+    # Get the existing rule or create a new one if it doesn't exist
+    `$existingRule = Get-NetFirewallRule -DisplayName 'Block RDP' -ErrorAction SilentlyContinue
+    `$newAddresses = @()
+
+    foreach (`$ip in `$FrequentIPs) {
+        `$IPAddress = `$ip.Key
+        `$Subnet = `$IPAddress + "/32"
+        `$newAddresses += `$Subnet
+    }
+
     try {
-        Write-Host `"Creating firewall rule...`" -ForegroundColor Cyan
-        New-NetFirewallRule -DisplayName `$FirewallRuleName -Direction Inbound -LocalPort 3389 -Protocol TCP -RemoteAddress `$Subnet -Action Block -Enabled True
-        
-        `$LogMessage = `'IP address `' + `$IPAddress + `' has been added to the Block RDP rule on `' + (Get-Date)
+        if (`$existingRule) {
+            # Update existing rule to include new IP addresses
+            Write-Host "Updating existing Block RDP rule..." -ForegroundColor Cyan
+            `$existingRemoteAddresses = (Get-NetFirewallAddressFilter -AssociatedNetFirewallRule `$existingRule).RemoteAddress
+            `$updatedRemoteAddresses = `$existingRemoteAddresses + `$newAddresses
+            Set-NetFirewallRule -DisplayName 'Block RDP' -RemoteAddress (`$updatedRemoteAddresses -join ",")
+        } else {
+            # Create a new rule if it doesn't exist
+            Write-Host "Creating new Block RDP rule..." -ForegroundColor Cyan
+            New-NetFirewallRule -DisplayName 'Block RDP' -Direction Inbound -LocalPort 3389 -Protocol TCP -RemoteAddress (`$newAddresses -join ",") -Action Block -Enabled True
+        }
+
+        `$LogMessage = 'IP addresses ' + (`$newAddresses -join ", ") + ' have been added to the Block RDP rule on ' + (Get-Date)
         Write-Host `$LogMessage -ForegroundColor Yellow
         Add-Content -Path `$LogPath -Value `$LogMessage
 
-        # Debugging output
-        Write-Host `'Firewall rule created and logged successfully`' -ForegroundColor Green
+        Write-Host 'Firewall rule created and logged successfully' -ForegroundColor Green
     } catch {
-        Write-Host `"Failed to create firewall rule: `$_`" -ForegroundColor Red
-        `$LogMessage = `"Failed to create firewall rule for IP address `$IPAddress on `" + (Get-Date)
+        Write-Host "Failed to create or update firewall rule: `$_" -ForegroundColor Red
+        `$LogMessage = "Failed to create or update firewall rule for IP addresses `$newAddresses on " + (Get-Date)
         Add-Content -Path `$LogPath -Value `$LogMessage
     }
-} else {
-    Write-Host `'No IP address found in the event logs`' -ForegroundColor Yellow
-    `$LogMessage = `'No IP address found in the event logs on `' + (Get-Date)
-    Add-Content -Path `$LogPath -Value `$LogMessage
 }
 "@
     $ScriptContent | Out-File -FilePath $ScriptPath -Encoding UTF8
@@ -120,6 +140,7 @@ if (`$null -ne `$IPAddress) {
 
 # Execute the script
 & $ScriptPath -EventID 4625 -LogName "Security"
+
 
 
 
