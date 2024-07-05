@@ -14,11 +14,10 @@ $apps = @(
     @{ Name = "App2"; Path = "C:\Path\to\File.exe" },
     @{ Name = "App3"; Path = "C:\Path\to\File.exe" }
 )
-.LINK
+.NOTES
+    Author:     ISAIAH ROSS
     Github:     https://github.com/isaiahrss 
     LinkedIn:   https://linkedin.com/in/isaiah-ross
-.NOTES
-    Author: ISAIAH ROSS
 #>
 
 # Import the NetSecurity module
