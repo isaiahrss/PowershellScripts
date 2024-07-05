@@ -13,12 +13,11 @@ $apps = @(
     @{ Name = "App1"; Path = "C:\Path\to\File.exe" },
     @{ Name = "App2"; Path = "C:\Path\to\File.exe" },
     @{ Name = "App3"; Path = "C:\Path\to\File.exe" }
-)
-.LINK
-        Github:     https://github.com/isaiahrss 
-        LinkedIn:   linkedin.com/in/isaiah-ross
+)       
 .NOTES
-        Author: ISAIAH ROSS
+        Author:     ISAIAH ROSS
+        Github:     https://github.com/isaiahrss 
+        LinkedIn:   https://linkedin.com/in/isaiah-ross
 #>
 
 
