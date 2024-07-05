@@ -1,56 +1,32 @@
 <#
 .SYNOPSIS
-Check-AndAllowAppThroughFrwll.ps1
-
+    Checks if a inbound firewall rule for exists to allow an application and if it doesn't, creates it.The firewall rule is created for TCP & UDP protocols.
+    Optimized for Windows 7 Ultimate.
 .DESCRIPTION
-Checks if a inbound firewall rule for exists to allow an application and if it doesn't, creates it.The firewall rule is created for TCP & UDP protocols. 
-At the moment, the function to check for rule existance does not work. However, rules are created according to the array.  
-
-The script works for:
-Powershell (All Versions)
-
+    This script checks if a firewall rule already exists for an application and creates a new inbound firewall rule for the application if it doesn't exist. 
+    The script allows you to specify the applications you want to allow through the firewall by providing their names and paths. 
+    The script creates firewall rules for both TCP and UDP protocols.
+.PARAMETER Apps
+    An array of hash tables containing the names and paths of the applications you want to allow through the firewall.
+.EXAMPLE
+$apps = @(
+    @{ Name = "App1"; Path = "C:\Path\to\File.exe" },
+    @{ Name = "App2"; Path = "C:\Path\to\File.exe" },
+    @{ Name = "App3"; Path = "C:\Path\to\File.exe" }
+)
 .LINK
-Add this later
-
+        Github:     https://github.com/isaiahrss 
+        LinkedIn:   linkedin.com/in/isaiah-ross
 .NOTES
-Written by: ISAIAH ROSS
-Website:    Add this later
-LinkedIn:   linkedin.com/in/isaiah-ross
-
-.CHANGELOG
-V1.00, 06/05/2023 - Initial version
-V1.10, 06/05/2023 - Added Process Paths to script
-V1.20, 06/06/2023 - Switched "Any" data value with wildcard character "*"
-V1.30, 06/06/2023 - Moved $null -eq to left side of variable $existingRuleTCP
-V1.40, 06/07/2023 - Added hash table to import firewall rule. Increases processing speed significantly
-V1.50, 06/07/2023 - function to check if firewall rule exists, does not work. However, script works as intended despite mishap.
+        Author: ISAIAH ROSS
 #>
 
-# Define an array of apps with their paths
-# Define an array of apps with their names and paths
+
+# Add the apps you want to allow through the firewall in the array. Create as many entries as needed.
 $apps = @(
-    @{ Name = "Agent.Package.Availability"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\Agent.Package.Availability\Agent.Package.Availability.exe" },
-    @{ Name = "Agent.Package.IotPoc"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\Agent.Package.IotPoc\Agent.Package.IotPoc.exe" },
-    @{ Name = "AgentPackageADRemote"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageADRemote\AgentPackageADRemote.exe" },
-    @{ Name = "AgentPackageAgentInformation"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageAgentInformation\AgentPackageAgentInformation.exe" },
-    @{ Name = "AgentPackageDiskManagement"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageDiskManagement\AgentPackageDiskManagement.exe" },
-    @{ Name = "AgentPackageHeartbeat"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageHeartbeat\AgentPackageHeartbeat.exe" },
-    @{ Name = "AgentPackageInternalPoller"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageInternalPoller\AgentPackageInternalPoller.exe" },
-    @{ Name = "AgentPackageMarketplace"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageMarketplace\AgentPackageMarketplace.exe" },
-    @{ Name = "AgentPackageMonitoring"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageMonitoring\AgentPackageMonitoring.exe" },
-    @{ Name = "AgentPackageNetworkDiscovery"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageNetworkDiscovery\AgentPackageNetworkDiscovery.exe" },
-    @{ Name = "AgentPackageNetworkDiscoveryWG"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageNetworkDiscoveryWG\AgentPackageNetworkDiscoveryWG.exe" },
-    @{ Name = "AgentPackageOsUpdates"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageOsUpdates\AgentPackageOsUpdates.exe" },
-    @{ Name = "AgentPackageProgramManagement"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageProgramManagement\AgentPackageProgramManagement.exe" },
-    @{ Name = "AgentPackageRunCommandInteractive"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageRunCommandInteractive\AgentPackageRunCommandInteractive.exe" },
-    @{ Name = "AgentPackageRuntimeInstaller"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageRuntimeInstaller\AgentPackageRuntimeInstaller.exe" },
-    @{ Name = "AgentPackageSCRemote"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageSCRemote\AgentPackageSCRemote.exe" },
-    @{ Name = "AgentPackageSTRemote"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageSTRemote\AgentPackageSTRemote.exe" },
-    @{ Name = "AgentPackageSystemTools"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageSystemTools\AgentPackageSystemTools.exe" },
-    @{ Name = "AgentPackageTaskScheduler"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageTaskScheduler\AgentPackageTaskScheduler.exe" },
-    @{ Name = "AgentPackageTicketing"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageTicketing\AgentPackageTicketing.exe" },
-    @{ Name = "AgentPackageUpgradeAgent"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageUpgradeAgent\AgentPackageUpgradeAgent.exe" },
-    @{ Name = "AgentPackageWindowsUpdate"; Path = "C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageWindowsUpdate\AgentPackageWindowsUpdate.exe" }
+    @{ Name = "App1"; Path = "C:\Path\to\File.exe" },
+    @{ Name = "App2"; Path = "C:\Path\to\File.exe" },
+    @{ Name = "App3"; Path = "C:\Path\to\File.exe" }
 )
 
 # Import the WFAS module
