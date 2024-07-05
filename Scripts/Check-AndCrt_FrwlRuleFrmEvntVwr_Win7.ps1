@@ -10,9 +10,6 @@
             4. Create a firewall rule to block RDP access from the extracted IP addresses. 
             5. Adds the IP addresses to the existing "Block RDP" rule if it exists.
             6. Log the actions and results to a uniquely named log file based on the current date and time.
-.LINK 
-        Github:     https://github.com/isaiahrss 
-        LinkedIn:   linkedin.com/in/isaiah-ross
 .PARAMETER ScriptPath
         The path to the script file to be created or executed.
 .PARAMETER FolderPath
@@ -23,7 +20,9 @@
         Edit the $ScriptPath and $FolderPath variables with the desired paths.
         Edit the $LogPath variable with the desired path for the log file then run the script.
 .NOTES
-        Author: ISAIAH ROSS
+        Author:     ISAIAH ROSS
+        Github:     https://github.com/isaiahrss 
+        LinkedIn:   linkedin.com/in/isaiah-ross
 #>
 
 $ScriptPath = "C:\Path\to\script.ps1"
