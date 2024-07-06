@@ -2,6 +2,7 @@
 .SYNOPSIS
     Checks if a outbound firewall rule for exists to allow an application to communicate with a IP and if it doesn't, creates it.
     The firewall rule is created for TCP & UDP protocols.
+    Optimized for Windows 7 Ultimate.
 
 .DESCRIPTION
     This script checks if a firewall rule already exists for an application to communicate with a IP and creates a new outbound firewall rule for the application if it doesn't exist.
