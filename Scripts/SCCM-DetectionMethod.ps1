@@ -7,6 +7,12 @@
     It examines both the 32-bit and 64-bit registry paths for installed applications and filters the results to see if the specified application is present. 
     Based on the presence of the specified application the script outputs an appropriate message and sets the exit code accordingly.
     For use in the detection method of a SCCM/MECM application, remove the if/else statement, exit code and write-output. Then replace with a single $return statement. 
+.PARAMETER App
+    The name of the application to check for.
+.PARAMETER installedApps
+    The list of installed applications retrieved from the registry.
+.LINK 
+    https://learn.microsoft.com/en-us/mem/configmgr/apps/deploy-use/create-applications#bkmk_dt-detect
 .NOTES
     Author:     ISAIAH ROSS
     Github:     https://github.com/isaiahrss
