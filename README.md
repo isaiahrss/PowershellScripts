@@ -1,7 +1,5 @@
 # Isaiah's PowerShell Scripts Collection
 
-![Logo](https://your-image-url.com/logo.png)
-
 ## Introduction
 Welcome to my PowerShell scripts repository! This collection includes various scripts that I have developed to automate tasks and improve efficiency. The purpose of this repo is to showcase my powershell scripting ability and share my contribiutions openly. Feel free to explore, use, and contribute.
 
@@ -31,6 +29,4 @@ The folder structure is pretty basic. I have everything in one folder (scripts) 
 ## Examples
 Here are some examples of how to use the scripts in this repository:
 
-### Example 1: Running a Script to Create AD Users
-```powershell
-.\Create-ADUsers.ps1 -UserList users.csv
+
