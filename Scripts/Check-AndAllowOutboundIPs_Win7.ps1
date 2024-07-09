@@ -21,7 +21,7 @@
 .NOTES
     Author:     ISAIAH ROSS
     Github:     https://github.com/isaiahrss 
-    LinkedIn:   linkedin.com/in/isaiah-ross
+    LinkedIn:   https://linkedin.com/in/isaiah-ross
     
 .#>
 
