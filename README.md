@@ -10,7 +10,7 @@ The folder structure is pretty basic. I have everything in one folder (scripts) 
 - **Backup Bookmarks**
 - **Create Firewall Exceptions**
 - **Windows 7 Versions**
-- **SCCM**
+- **SCCM Detection Method**
 
 ## Installation and Usage
 1. **Clone the repository**:
