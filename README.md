@@ -4,13 +4,13 @@
 Welcome to my PowerShell scripts repository! This collection includes various scripts that I have developed to automate tasks and improve efficiency. The purpose of this repo is to showcase my powershell scripting ability and share my contribiutions openly. Feel free to explore, use, and contribute.
 
 ## Notes
-The folder structure is pretty basic. I have everything in one folder (scripts) but as the collections grows, i will group scripts and modules based on the feature list below. All of the scripts here are generally easy to use and require only a few variables to customize. 
+The folder structure is pretty basic. I have everything in one folder (scripts) but as the collections grows, i will group scripts and modules withing specific folders. All of the scripts here are generally easy to use and require only a few variables to customize. 
 
 ## Features
-- **Automated Configuration Management**: Scripts to automate SCCM tasks.
-- **Intune Management**: Scripts for managing Intune policies and devices.
-- **Active Directory Automation**: Automate AD tasks like user creation and group management.
-- **Network Configuration**: Scripts to manage network settings and firewall rules.
+- **Backup Bookmarks**
+- **Create Firewall Exceptions**
+- **Windows 7 Versions**
+- **SCCM**
 
 ## Installation and Usage
 1. **Clone the repository**:
@@ -25,8 +25,5 @@ The folder structure is pretty basic. I have everything in one folder (scripts) 
     ```powershell
     ./your-script.ps1
     ```
-
-## Examples
-Here are some examples of how to use the scripts in this repository:
 
 
