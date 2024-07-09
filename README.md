@@ -4,7 +4,7 @@
 Welcome to my PowerShell scripts repository! This collection includes various scripts that I have developed to automate tasks and improve efficiency. The purpose of this repo is to showcase my powershell scripting ability and share my contribiutions openly. Feel free to explore, use, and contribute.
 
 ## Notes
-The folder structure is pretty basic. I have everything in one folder (scripts) but as the collections grows, i will group scripts and modules withing specific folders. All of the scripts here are generally easy to use and require only a few variables to customize. 
+The folder structure is pretty basic. I have everything in one folder (scripts) but as the collections grows, i will group scripts and modules within specific folders. All of the scripts here are generally easy to use and require only a few variables to customize. 
 
 ## Features
 - **Backup Bookmarks**
