@@ -15,6 +15,7 @@ Enter name of User (e.g. John Doe): Jane Smith
 .NOTES
 Author: ISAIAH ROSS
 GitHub: https://github.com/isaiahross
+LinkedIn: https://linkedin.com/in/isaiah-ross
 Last Updated: June 2024
 #>
 
