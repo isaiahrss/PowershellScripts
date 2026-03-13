@@ -42,7 +42,7 @@ LinkedIn: https://linkedin.com/in/isaiah-ross
 Last Updated: June 2024
 Requirements: Exchange Management Shell, ActiveDirectory module, and Azure AD Connect.
 Waits 20 minutes for AD sync to complete before prompting the user to run a follow-up script:
-C:\Source\Scripts\ConvertTo-SharedMailbox.ps1
+C:\Source\Scripts\ConvertTo-SharedMailbox_EXO.ps1
 Ensure the follow-up script is run with sufficient Exchange Online permissions.
 #>
 
@@ -103,7 +103,7 @@ Start-Sleep -Seconds 1200
 Write-Host "----------------------------------------" -ForegroundColor Cyan
 Write-Host "AD Sync period has ended." -ForegroundColor Green
 Write-Host "Please run the following script manually in a standard PowerShell session (not EMS):" -ForegroundColor Yellow
-Write-Host "    C:\Source\Scripts\ConvertTo-SharedMailbox.ps1" -ForegroundColor Cyan
+Write-Host "    C:\Source\Scripts\ConvertTo-SharedMailbox_EXO.ps1" -ForegroundColor Cyan
 Write-Host "Make sure to run as a user with Exchange Online permissions." -ForegroundColor Magenta
 Write-Host "----------------------------------------" -ForegroundColor Cyan
 
