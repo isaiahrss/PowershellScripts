@@ -19,7 +19,9 @@ Prompts are used to collect the machine name and user credentials interactively.
 Prompts for machine and user, then provisions Citrix Remote PC delivery group accordingly.
 
 .NOTES
-Author: Isaiah Ross
+Author:     ISAIAH ROSS
+Github:     https://github.com/isaiahrss
+LinkedIn:   https://linkedin.com/in/isaiah-ross
 Created: 20205-01-08
 Modified: 2025-07-16
 Version: 3.0

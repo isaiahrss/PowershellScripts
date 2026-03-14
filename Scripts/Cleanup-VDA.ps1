@@ -25,7 +25,9 @@ Runs the Citrix VDA cleanup utility from the specified path, performs residual a
 Runs the cleanup utility, waits 180 seconds before post-cleanup actions, writes output to a custom log file, verifies cleanup status, and reboots the machine.
 
 .NOTES
-Author: Isaiah Ross
+Author:     ISAIAH ROSS
+Github:     https://github.com/isaiahrss
+LinkedIn:   https://linkedin.com/in/isaiah-ross
 Version: 1.1
 Date: 2025-10-16
 

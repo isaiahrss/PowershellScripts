@@ -21,7 +21,9 @@ Enter the name of the machine (AD1\Machine) to be added: AD1\WS123
 Enter the username (AD1\user) to assign to the machine: AD1\jdoe
 
 .NOTES
-Author: Isaiah Ross  
+Author:     ISAIAH ROSS
+Github:     https://github.com/isaiahrss
+LinkedIn:   https://linkedin.com/in/isaiah-ross 
 Created: 2025-01-08  
 Last Modified: 2025-07-16  
 Version: 3.0  

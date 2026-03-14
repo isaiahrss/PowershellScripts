@@ -38,7 +38,9 @@ Removes the basic RSAT administration tools defined in the script.
 Removes all RSAT features targeted by the script.
 
 .NOTES
-Author: Isaiah Ross
+Author:     ISAIAH ROSS
+Github:     https://github.com/isaiahrss
+LinkedIn:   https://linkedin.com/in/isaiah-ross
 Requires: Administrative privileges, Windows 10/11 build 17763 or later, and access to the local Features on Demand source at C:\Source\RSAT_CAB_Files
 Log File: %windir%\Install-RSAT.log
 

@@ -18,7 +18,9 @@ Specifies the log severity level: "Info", "Warn", or "Error". Defaults to "Info"
 (Optional) Used by Invoke-RebootPromptWithTimeout to specify the delay before reboot in seconds. Default is 60.
 
 .NOTES
-Author: Isaiah Ross
+Author:     ISAIAH ROSS
+Github:     https://github.com/isaiahrss
+LinkedIn:   https://linkedin.com/in/isaiah-ross
 Version: 1.1
 Last Modified: 2025-05-06
 This script performs critical system maintenance tasks. Ensure proper administrative permissions before execution.
